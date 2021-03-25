@@ -24,7 +24,7 @@
 ### Metodo 1
 Para analizar la informacion del procesamiento de materiales en cada una de sus estaciones (Hoja Processing Data) realizaron los siguientes pasos:
 
-1. Se carga el archivo CSV que contiene los tiempos en segundos de los diferentes pasos.
+1. Se carga el archivo de Excel que contiene los tiempos en segundos de los diferentes pasos.
 2. Se obtienen las diferentes combinaciones de Productos y Estaciones.
 3. Configuramos la funcion DistPlus de la libreria EnvStats para que nos ayude a encontrar la distribucion de probabilidades que mas se acerca al grupo de datos. Las configuraciones realizadas fueron las siguientes:
     - Los datos a evaluar (Tiempo en segundos)
@@ -46,7 +46,15 @@ library(utf8)
 library(EnvStats)
 library("xlsx")
 
+help("EnvStats")
+
+# LEER CSV
 data <- read.csv(file.choose(), header = TRUE, sep = ";",na.strings = c("","NA"),colClasses=c("numeric","character","character","character"))
+
+# LEER XLSX
+data <- read.xlsx(file.choose(),1, header=TRUE)
+
+data
 
 disitruciones <- c("gamma","weibull","exp","norm")
 
@@ -56,43 +64,47 @@ nombres <- data[,c("Producto","Estacion")]
 
 nombres = na.omit(nombres)
 
+
 combinaciones <- nombres %>% distinct(Producto,Estacion)
 
-excel = matrix(1:2,nrow=nrow(combinaciones),ncol=5)
+nrow(combinaciones)
+
+excel = matrix(,nrow=nrow(combinaciones),ncol=5)
 
 for (i in 1:dim(combinaciones)[1]){
-  
+
 filtro_producto <- combinaciones[i,1]
 filtro_estacion <- combinaciones[i,2]
 
 datos <- filter(data, Estacion == filtro_estacion & Producto == filtro_producto)
 
-resultado <- distChoose(datos$�..Tiempo, alpha = 0.05, method = "sw",
+resultado <- distChoose(datos$Tiempo, alpha = 0.05, method = "sw",
            choices = c( "gamma" , "weibull"  ,"norm"), est.arg.list = NULL,
            warn = TRUE, keep.data = TRUE, data.name = NULL,
            parent.of.data = NULL, subset.expression = NULL)
 
-resultado
 if(resultado$decision == "Nonparametric") {
   resultado$decision = "Normal"
 }
 
 resultado_dist <- distribuciones[[resultado$decision]][2]
 
-ajuste <- fitdist(datos$�..Tiempo, resultado_dist)
+ajuste <- fitdist(datos$Tiempo, resultado_dist)
 
 excel[i,1] <- filtro_estacion
 excel[i,2] <- filtro_producto
 excel[i,3] <- resultado$decision
 excel[i,4] <- ajuste[[1]][1]
 excel[i,5] <- ajuste[[1]][2]
-
 cat(sprintf("Para la combinacion %s y %s la dist. es : %s (%s) \n",filtro_producto,filtro_estacion,resultado$decision,resultado_dist))
+
 }
 
-write.xlsx(excel, "Distribuciones Processing Data.xlsx", sheetName = "Distribuciones Processing Data", 
-           col.names = FALSE, row.names = FALSE, append = FALSE)
+colnames(excel) = c("Estacion","Producto","Distribucion","Parametro_1","Parametro_2")
 
+write.xlsx(excel, "Distribuciones Processing Data.xlsx", sheetName = "Distribuciones Processing Data", 
+           col.names = TRUE, 
+           row.names = FALSE, append = FALSE)
 ```
 
 Extracto de la salida que genera el archivo:
