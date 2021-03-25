@@ -13,12 +13,19 @@
 
 
 ## Diseño del sistema
-
+![Excel Clean Time Calc](./assets/timedesign.png)
+Se cuenta con un source que es el encargado de iniciar el proceso de extracción y modificación de los datos, específicamente para eliminar los valores incorrectos y calcular los tiempos entre dos fechas que son proporcionadas. Además cuenta con status label para mostrar en tiempo real el desempeño de los procesos en la lectura y escritura de datos.
 ### Procesos
-
+![Excel Clean Time Calc](./assets/timeprocess.png)
+* ProcessingData: se encarga de hacer el análisis de los datos de la hoja con el mismo nombre, el proceso asigna valores vacíos a todos las variables temporales, luego hace una lectura, el VerifyingEOF verifica el final del archivo si ninguno de los datos tuvo un cambio respecto a los valores asignados al principio, si no es el fin del archivo procede a verificar si alguno de los campos es vacío ya que de esta forma es un dato inválido, si es inválido procede al siguiente, si no lo es escribe el nuevo dato en el archivo de salida, calculando el tiempo entre las dos fechas proporcionadas. Luego aumenta las respectivas variables y procede con la siguiente fila. Cuando encuentra el final del archivo ejecuta el siguiente proceso QualityData.
+* QualityData: se encarga de hacer el análisis de los datos de la hoja con el mismo nombre, el proceso asigna valores vacíos a todos las variables temporales, luego hace una lectura, el VerifyingEOF verifica el final del archivo si ninguno de los datos tuvo un cambio respecto a los valores asignados al principio, si no es el fin del archivo procede a verificar si alguno de los campos es vacío ya que de esta forma es un dato inválido, si es inválido procede al siguiente, si no lo es escribe el nuevo dato en el archivo de salida, calculando el tiempo entre las dos fechas proporcionadas. Luego aumenta las respectivas variables y procede con la siguiente fila. Cuando encuentra el final del archivo ejecuta el siguiente proceso SupplierData.
+* SupplierData: se encarga de hacer el análisis de los datos de la hoja con el mismo nombre, el proceso asigna valores vacíos a todos las variables temporales, luego hace una lectura, el VerifyingEOF verifica el final del archivo si ninguno de los datos tuvo un cambio respecto a los valores asignados al principio, si no es el fin del archivo procede a verificar si alguno de los campos es vacío ya que de esta forma es un dato inválido, si es inválido procede al siguiente, si no lo es escribe el nuevo dato en el archivo de salida, calculando el tiempo entre las dos fechas proporcionadas. Luego aumenta las respectivas variables y procede con la siguiente fila. Cuando encuentra el final del archivo ejecuta el siguiente proceso QualityData.
+* QualityData: se encarga de hacer el análisis de los datos de la hoja con el mismo nombre, el proceso asigna valores vacíos a todos las variables temporales, luego hace una lectura, el VerifyingEOF verifica el final del archivo si ninguno de los datos tuvo un cambio respecto a los valores asignados al principio, si no es el fin del archivo procede a verificar si alguno de los campos es vacío ya que de esta forma es un dato inválido, si es inválido procede al siguiente, si no lo es escribe el nuevo dato en el archivo de salida, calculando el tiempo entre las dos fechas proporcionadas. Luego aumenta las respectivas variables y procede con la siguiente fila, hasta encontrar el final del archivo.
 ### Elementos
-
-
+![Excel Clean Time Calc](./assets/elements1.png)
+Una conexión a Excel para leer los datos proporcionados por Simio, el DataFile.xlsx y una conexión a para escribir los datos calculados, el DataFileOut.xlsx
+![Excel Clean Time Calc](./assets/elements2.png)
+Las variables temporales utilizadas para almacenar los datos leídos del excel de entrada.
 ## Analisis para distribuciones
 
 ### Metodo 1
@@ -129,4 +136,4 @@ Esto presenta algunas limitaciones como la cantidad de pruebas que se pueden eva
 ## Modelo Final
 
 ## Conclusiones
-
+*  SIMIO es una herramienta muy poderosa para modelar y simular que ofrece las capacidades necesarias para analizar los datos proporcionados.
