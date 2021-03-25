@@ -134,13 +134,88 @@ Esto presenta algunas limitaciones como la cantidad de pruebas que se pueden eva
 ### Metodo 2
 Para analizar la información generada sobre las hojas Quality Data y Supplier Data se utilizó un segundo método, en donde se realiza lo siguiente:
 
-1. Se carga el archivo de Excel que contiene en la primera columna los tiempos en segundos, en la segunda contiene el proveedor y en la tercera el material.
+1. Se carga el archivo de Excel que contiene en la primera columna los tiempos en segundos, en la segunda contiene el material y en la tercera el proveedor.
 2. Se analiza celda por celda la tabla generada a partir del archivo de excel
     - Se guardan los valore de proveedor y material
     - Se guarda el dato de tiempo en un arreglo
     - Si el dato de tiempo es -1, se realiza la elección de la distribución, ya que significa que terminaron lo datos de esa combinación.
 3. Se guarda una matriz con las combinaciones y distribuciones seleccionadas para cada una.
 4. Se genera un archivo excel a partir de la matriz guardada.
+
+#### Script
+
+El archivo de excel generado tiene los siguientes datos:
+(extracto)
+
+|Tiempo|Material|Supplier Name|
+|-|-|-|
+|1070|MAT006|King's Supply Company|
+|983|MAT006|King's Supply Company|
+|881|MAT006|King's Supply Company|
+|891|MAT006|King's Supply Company|
+|1033|MAT006|King's Supply Company|
+|1115|MAT006|King's Supply Company|
+|...|
+|-1|		
+|558|MAT002|Highe's Lumber|
+|831|MAT002|Highe's Lumber|
+|737|MAT002|Highe's Lumber|
+|674|MAT002|Highe's Lumber|
+
+Se carga este archivo de excel a R:
+
+```R
+data <- read.xlsx(file.choose(),3, header=TRUE)
+```
+
+Después de esto se realiza un ciclo en donde se va analizando fila por fila del excel:
+```R
+datos = {} #Donde se guardarán los datos de tiempo de cada combinación
+matriz = matrix(, nrow=7,ncol=5) #La matriz que se generará con la información de distribución
+i = 0  #Fila de la tabla original que se está analizando
+imatriz = 1 #Fila de nueva matriz que se está generando
+for(i in 1:length(data[,1])){
+  celda = data[,1][i] #Tiempo
+  if(celda == -1){
+    dist <- fit.cont(datos) #Se analiza y selecciona la distribución
+    matriz[imatriz,1] = data[,2][i-1] #Se escribe el material
+    matriz[imatriz,2] = data[,3][i-1] #Se escribe el proveedor
+    matriz[imatriz,3] = dist$chosenDistr #Se escribe el nombre de la distribución seleccinoada
+    x = 4
+    for(param in dist$fittedParams){ #Se escriben los parámetros de la distribución seleccionada
+      matriz[imatriz,x] = param
+      x = x + 1
+    }
+    imatriz = imatriz + 1
+    i = i + 1
+    next
+  }
+  datos = c(datos, celda) #Se guarda el dato de tiempo en el arreglo
+  i = i + 1
+}
+```
+
+Se escriben los nombres de las columnas de la matriz
+```R
+colnames(matriz) = c('Material','Supplier','Distribucion','Param1','Param2')
+```
+
+Por último, se genera el archivo de excel con la matriz generada
+```R
+write.xlsx(matriz, "Distribuciones Salida.xlsx", sheetName = "Distribuciones Salida", 
+           col.names = TRUE, 
+           row.names = FALSE, append = FALSE)
+```
+
+Archivo generado
+|Supplier|Material|Distribucion|Param1|Param2|
+|-|-|-|-|-|
+|Building Center|MAT005|logis|13617.3906517334|33.0334431154313|
+|Club Hardware|MAT007|norm|13618.1428571429|55.5371910690191|
+|Highe's Lumber|MAT002|unif|13521.7178859735|13715.2450769895|
+|Incity Timber|MAT001|gamma|59112.5540578114|4.34070981885869|
+|Jone's Paint Store|MAT004|weibull|268.560003913513|13646.3509966749|
+|King's Supply Company|MAT006|norm|13618.7934782609|56.3396219453519|
 
 ## Modelo Final
 
