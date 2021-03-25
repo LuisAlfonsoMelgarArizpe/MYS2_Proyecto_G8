@@ -1,7 +1,7 @@
 library("xlsx")
 
 # carga de la data a manipular
-data <- read.csv(file.choose(), header = TRUE, sep = ",")
+#data <- read.csv(file.choose(), header = TRUE, sep = ",")
 
 data <- read.xlsx(file.choose(),3, header=TRUE)
 # impreme la data
@@ -32,9 +32,9 @@ for(i in 1:length(data[,1])){
   i = i + 1
 }
 
-write.table(matriz, file = 'resultado-r.xlsx', row.names = FALSE, col.names = c('v1','v2','Distribucion','Param1','Param2'), sep=",")
+#write.table(matriz, file = 'resultado-r.xlsx', row.names = FALSE, col.names = c('v1','v2','Distribucion','Param1','Param2'), sep=",")
 
-colnames(matriz) = c('v1','v2','Distribucion','Param1','Param2')
+colnames(matriz) = c('Material','Supplier','Distribucion','Param1','Param2')
 
 write.xlsx(matriz, "Distribuciones Salida.xlsx", sheetName = "Distribuciones Salida", 
            col.names = TRUE, 
