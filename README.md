@@ -132,6 +132,15 @@ Esto presenta algunas limitaciones como la cantidad de pruebas que se pueden eva
 
 
 ### Metodo 2
+Para analizar la información generada sobre las hojas Quality Data y Supplier Data se utilizó un segundo método, en donde se realiza lo siguiente:
+
+1. Se carga el archivo de Excel que contiene en la primera columna los tiempos en segundos, en la segunda contiene el proveedor y en la tercera el material.
+2. Se analiza celda por celda la tabla generada a partir del archivo de excel
+    - Se guardan los valore de proveedor y material
+    - Se guarda el dato de tiempo en un arreglo
+    - Si el dato de tiempo es -1, se realiza la elección de la distribución, ya que significa que terminaron lo datos de esa combinación.
+3. Se guarda una matriz con las combinaciones y distribuciones seleccionadas para cada una.
+4. Se genera un archivo excel a partir de la matriz guardada.
 
 ## Modelo Final
 
