@@ -13,12 +13,8 @@
 
 ---
 ## Ordenamiento de Datos
-### Diseño del sistema
-![Diseno Ordenamiento](./assets/loaddesign.png)
-Se cuenta con un source que es el encargado de iniciar el proceso de ordenamiento de datos cargados a las Data Tables de Simio, empezando por la identificación de las combinaciones de datos, procediendo a la escritura de los datos ordenados en el excel. Como complemento a la identificación del proceso se tienen diferentes labels para mostrar datos sobre el tiempo de ejecución.
 
-### Procesos
-#### Identificar Grupos
+#### Diseño del sistema
 ![Excel Clean Time Calc](./assets/timedesign.png)
 Se cuenta con un source que es el encargado de iniciar el proceso de extracción y modificación de los datos, específicamente para eliminar los valores incorrectos y calcular los tiempos entre dos fechas que son proporcionadas. Además cuenta con status label para mostrar en tiempo real el desempeño de los procesos en la lectura y escritura de datos.
 
@@ -41,17 +37,31 @@ Las variables temporales utilizadas para almacenar los datos leídos del excel d
 Se cuenta con un source que es el encargado de iniciar el proceso de ordenamiento de datos cargados a las Data Tables de Simio, empezando por la identificación de las combinaciones de datos, procediendo a la escritura de los datos ordenados en el excel. Como complemento a la identificación del proceso se tienen diferentes labels para mostrar datos sobre el tiempo de ejecución.
 
 ### Procesos
+
+Para cada tipo de proceso, se realiza la misma acción para las siguientes tablas generadas del modulo anterior: 
+
+- Processing Data
+- Supplier Data
+- Quality Data
+
 #### Identificar Grupos
-![Excel Clean Time Calc](./assets/load1process.png)
-* ProcessingData: se encarga de hacer el análisis de los datos de la hoja con el mismo nombre, el proceso asigna valores vacíos a todos las variables temporales, luego hace una lectura, el VerifyingEOF verifica el final del archivo si ninguno de los datos tuvo un cambio respecto a los valores asignados al principio, si no es el fin del archivo procede a verificar si alguno de los campos es vacío ya que de esta forma es un dato inválido, si es inválido procede al siguiente, si no lo es escribe el nuevo dato en el archivo de salida, calculando el tiempo entre las dos fechas proporcionadas. Luego aumenta las respectivas variables y procede con la siguiente fila. Cuando encuentra el final del archivo ejecuta el siguiente proceso QualityData.
-* QualityData: se encarga de hacer el análisis de los datos de la hoja con el mismo nombre, el proceso asigna valores vacíos a todos las variables temporales, luego hace una lectura, el VerifyingEOF verifica el final del archivo si ninguno de los datos tuvo un cambio respecto a los valores asignados al principio, si no es el fin del archivo procede a verificar si alguno de los campos es vacío ya que de esta forma es un dato inválido, si es inválido procede al siguiente, si no lo es escribe el nuevo dato en el archivo de salida, calculando el tiempo entre las dos fechas proporcionadas. Luego aumenta las respectivas variables y procede con la siguiente fila. Cuando encuentra el final del archivo ejecuta el siguiente proceso SupplierData.
-* SupplierData: se encarga de hacer el análisis de los datos de la hoja con el mismo nombre, el proceso asigna valores vacíos a todos las variables temporales, luego hace una lectura, el VerifyingEOF verifica el final del archivo si ninguno de los datos tuvo un cambio respecto a los valores asignados al principio, si no es el fin del archivo procede a verificar si alguno de los campos es vacío ya que de esta forma es un dato inválido, si es inválido procede al siguiente, si no lo es escribe el nuevo dato en el archivo de salida, calculando el tiempo entre las dos fechas proporcionadas. Luego aumenta las respectivas variables y procede con la siguiente fila. Cuando encuentra el final del archivo ejecuta el siguiente proceso QualityData.
-* QualityData: se encarga de hacer el análisis de los datos de la hoja con el mismo nombre, el proceso asigna valores vacíos a todos las variables temporales, luego hace una lectura, el VerifyingEOF verifica el final del archivo si ninguno de los datos tuvo un cambio respecto a los valores asignados al principio, si no es el fin del archivo procede a verificar si alguno de los campos es vacío ya que de esta forma es un dato inválido, si es inválido procede al siguiente, si no lo es escribe el nuevo dato en el archivo de salida, calculando el tiempo entre las dos fechas proporcionadas. Luego aumenta las respectivas variables y procede con la siguiente fila, hasta encontrar el final del archivo.
+![Ordenamient Load1](./assets/load1process.png)
+
+El flujo general de este metodo, es recorrer (Decide) la data table buscando las combinaciones de Productos y Servidores (Assign donde se asigna a una variable string), formando una cadena de la suma de este par de datos. Para lograr identificar todas las parejas, se busca con el Step "Find" la cadena creada por el par de datos, y si existe, pasa a la siguiente fila, en caso no exista, lo ingresa al vector de String de combinaciones y avanza al siguiente objeto. Una vez terminado el proceso, manda a llamar al proceso de Ordenar Excel de la tabla que este manejando.
+
+#### Ordenar en Excel
+![Ordenamient Load2](./assets/load2process.png)
+
+En este proceso, vamos a manejar un ciclo general, el cual va a recorrer el arreglo de combinaciones (con un Decide), luego por cada combinación, se utiliza el Step "Search" para buscar todos los elementos del Data Table que se este manejando. En su salida alterna, saca el token encontrado, pero nos permite identificar en que fila lo encontro, por lo cual se va buscando dato por dato, los datos que encajen con la combinación. Por cada uno de estos, lo mandamos a escribir al excel, luego miramos con un Decide si es el ultimo elemento de la tabla, y lo envia a la siguiente combinación aumentando el contador del ciclo en 1, en caso no sea el ultimo, manda a buscar el siguiente elemento de la tabla, donde ya el Search se encargaría de enviar el flujo a la siguiente combinación cuando no encuentre matches. Al terminar el ciclo, en caso este no sea la ultima tabla, manda a llamar al proceso de Identificar Grupos de la siguiente Data Table.
 ### Elementos
-![Excel Clean Time Calc](./assets/elements1.png)
-Una conexión a Excel para leer los datos proporcionados por Simio, el DataFile.xlsx y una conexión a para escribir los datos calculados, el DataFileOut.xlsx
-![Excel Clean Time Calc](./assets/elements2.png)
-Las variables temporales utilizadas para almacenar los datos leídos del excel de entrada.
+![OrdenEl1](./assets/loadelements.png)
+Para este archivo de Simio, se manejaron 3 tipos de variables:
+- Arreglo de Strings: Para guardar las combinaciones de Productos-Servidores se realizazo un Vector de 200 posiciones.
+- Contadores (Integers): Se crearon 8 contadores que se utilizan en simultaneo en diferentes partes del proceso de ordenamiento.
+- Strings: Se manejaron 2 variables de String que nos sirven para almacenar textos para compararlos o ingresarlos en algún lugar de memoria o el excel.
+
+![OrdenEl2](./assets/loadelements2.png)
+Ajeno a esto, se manejaron 3 Data Tables, 3 Conexiones de excel para importar datos a la tabla y 1 conexión a excel hacía el archivo de salida.
 
 ## Analisis para distribuciones
 
@@ -244,8 +254,40 @@ Archivo generado
 |Jone's Paint Store|MAT004|weibull|268.560003913513|13646.3509966749|
 |King's Supply Company|MAT006|norm|13618.7934782609|56.3396219453519|
 
+--- 
+
+## Analisis BOM MATRIX
+### Diseño del sistema
+![Diseno Ordenamiento](./assets/bomdesign.png)
+Se cuenta con un source que es el encargado de iniciar el proceso de busqueda de datos en la matriz, asi como un boton que nos permite leer la columna siguiente. Los datos de producción para el tipo de producto que representa la columna, se van mostrando en varios labels dentro del modelo.
+
+### Procesos
+
+#### Leer Matriz
+![Ordenamient Load1](./assets/boomprocess.PNG)
+
+El flujo general de este metodo, consiste en leer todas las filas de la columna que corresponde leer, para asignar el dato leido en una variable que representa el material de la fila. Una vez leido todo el excel, se temrina el proceso aumentando el contador de columnas en 1 o reseteandolo a la primera columna en caso llegue a la ultima columna.
+
+### Elementos
+![OrdenEl1](./assets/boomstate.png)
+Para este archivo de Simio, se manejaron 3 tipos de variables:
+- Enteros: Para guardar los datos de las filas cuantitativas.
+- Contadores (Integers): Se crearon 8 contadores que se utilizan en simultaneo en diferentes partes del proceso de ordenamiento.
+- Strings: Se manejaron strings para almacenar nombres leidos en el data table.
+- ExcelConnection: Se tiene un excel connection para conectar el archivo.
+
+--- 
+
 ## Modelo Final
+![OrdenEl1](./assets/finaldesign.png)
+
+Se importó la imagen con transparencia con las medidas establecidas, y luego se fueron colocando de forma manual, diferentes Sources (ya que se identifico que muchos elementos eran fuentes de materia prima-compuesta, por eso se les asigno Sources) y se les asigno en opciones generales, la posición en el tablero de Simio. Se creo un Source por cada posición diferente en el Excel de datos. 
+
+--- 
 
 ## Conclusiones
 *  SIMIO es una herramienta muy poderosa para modelar y simular que ofrece las capacidades necesarias para analizar los datos proporcionados.
 *  Con ayuda del lenguaje de programación R se puede realizar un análisis de datos que permita determinar las distribuciones de probabilidad para los flujos del sistema, y sus respectivos parámetros.
+*  SIMIO no es una herramienta optima para proceso ETL, pero puede llegar a cumplir con esta función.
+*  El uso de librerias de R nos permite la automatización en la toma decisiones de procesos de analisis de datos. 
+*  La funciónalidad de SIMIO de interactuar con archivos de Excel nos da bastante flexibilidad a la hora de manejar fuentes de datos.
