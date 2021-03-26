@@ -258,7 +258,7 @@ Archivo generado
 
 ## Analisis BOM MATRIX
 ### Diseño del sistema
-![Diseno Ordenamiento](./assets/bomdesign.png)
+![Diseno Ordenamiento](./assets/bomdesign.PNG)
 Se cuenta con un source que es el encargado de iniciar el proceso de busqueda de datos en la matriz, asi como un boton que nos permite leer la columna siguiente. Los datos de producción para el tipo de producto que representa la columna, se van mostrando en varios labels dentro del modelo.
 
 ### Procesos
@@ -269,7 +269,7 @@ Se cuenta con un source que es el encargado de iniciar el proceso de busqueda de
 El flujo general de este metodo, consiste en leer todas las filas de la columna que corresponde leer, para asignar el dato leido en una variable que representa el material de la fila. Una vez leido todo el excel, se temrina el proceso aumentando el contador de columnas en 1 o reseteandolo a la primera columna en caso llegue a la ultima columna.
 
 ### Elementos
-![OrdenEl1](./assets/boomstate.png)
+![OrdenEl1](./assets/boomstate.PNG)
 Para este archivo de Simio, se manejaron 3 tipos de variables:
 - Enteros: Para guardar los datos de las filas cuantitativas.
 - Contadores (Integers): Se crearon 8 contadores que se utilizan en simultaneo en diferentes partes del proceso de ordenamiento.
