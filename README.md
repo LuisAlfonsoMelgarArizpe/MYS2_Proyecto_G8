@@ -60,7 +60,7 @@ Para este archivo de Simio, se manejaron 3 tipos de variables:
 - Contadores (Integers): Se crearon 8 contadores que se utilizan en simultaneo en diferentes partes del proceso de ordenamiento.
 - Strings: Se manejaron 2 variables de String que nos sirven para almacenar textos para compararlos o ingresarlos en algún lugar de memoria o el excel.
 
-![OrdenEl2](./assets/loadelements2.png)
+![OrdenEl2](./assets/loadelements2.PNG)
 Ajeno a esto, se manejaron 3 Data Tables, 3 Conexiones de excel para importar datos a la tabla y 1 conexión a excel hacía el archivo de salida.
 
 ## Analisis para distribuciones
