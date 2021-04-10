@@ -1,0 +1,4 @@
+Time(Hours);EntityID;ObjectName;ProcessID;StepName;Action
+0;DefaultEntity.172;Model;0.SacarMaterialesLumber1;[Assign] Assign5;Unable to get value of property 'Assign.Assignments.AssignmentsNewValue'.
+0;DefaultEntity.172;Model;0.SacarMaterialesLumber1;[Assign] Assign5;Referenced definition type 'Material' does not match executing type 'ModelEntity'
+
