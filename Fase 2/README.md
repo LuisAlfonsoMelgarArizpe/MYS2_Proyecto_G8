@@ -108,7 +108,14 @@ Para la generacion de estos materiales se utilizaron procesos que asignan variab
 ---
 ## Modelos Finales
 
+Modelo 1
+![Modelo](./assets/sistema.png)
 
+Modelo 1 completo
+![Modelo](./assets/SistemaCompleto.png)
+
+Modelo final 
+![Modelo](./assets/completo.png)
 
 ## Conclusiones
 *  SIMIO es una herramienta muy poderosa para modelar y simular que ofrece las capacidades necesarias para analizar los datos proporcionados.
