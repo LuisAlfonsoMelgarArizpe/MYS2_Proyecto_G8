@@ -1,6 +1,4 @@
 Time(Hours),EntityID,ObjectName,ProcessID,StepName,Action
-0,SA_Assemble_1,SA_Assemble_1,0.OnRunInitialized,[Notify] IfParentInputBufferCapacityIsZero,Potential modeling problem detected
-0,SA_Assemble_1,SA_Assemble_1,0.OnRunInitialized,[Notify] IfParentInputBufferCapacityIsZero,The parent input buffer capacity of combiner 'SA_Assemble_1' is specified as zero. A buffer is required in order to hold the parent entities waiting to have batch members attached.
-0,SA_Assemble_2,SA_Assemble_2,0.OnRunInitialized,[Notify] IfParentInputBufferCapacityIsZero,Potential modeling problem detected
-0,SA_Assemble_2,SA_Assemble_2,0.OnRunInitialized,[Notify] IfParentInputBufferCapacityIsZero,The parent input buffer capacity of combiner 'SA_Assemble_2' is specified as zero. A buffer is required in order to hold the parent entities waiting to have batch members attached.
+27.3473611111108,--,--,--,--,The maximum number in system limit for entities of type 'Material2' has been exceeded.
+27.3473611111108,--,--,--,--,Possible causes:
 
