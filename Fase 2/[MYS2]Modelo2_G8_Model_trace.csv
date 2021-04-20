@@ -1,0 +1,4 @@
+Time(Hours);EntityID;ObjectName;ProcessID;StepName;Action
+0;Proveedor1;Model;2.SacarOrdenes;[Decide] Decide3;Possible infinite loop detected in process logic
+0;Proveedor1;Model;2.SacarOrdenes;[Decide] Decide3;The process 'SacarOrdenes' has logic that has looped 200000 times without any delay or pause. This may indicate a modeling error. 
+

@@ -1,9 +1,13 @@
 library("xlsx")
+library("rriskDistributions")
 
 # carga de la data a manipular
 #data <- read.csv(file.choose(), header = TRUE, sep = ",")
 
+#data <- read.xlsx(file.choose(),2, header=TRUE)
+
 data <- read.xlsx(file.choose(),3, header=TRUE)
+
 # impreme la data
 data
 
@@ -34,10 +38,22 @@ for(i in 1:length(data[,1])){
 
 #write.table(matriz, file = 'resultado-r.xlsx', row.names = FALSE, col.names = c('v1','v2','Distribucion','Param1','Param2'), sep=",")
 
+#Quality Data
+
+#colnames(matriz) = c('Material','Supplier','Distribucion','Param1','Param2')
+
+#write.xlsx(matriz, "Distribuciones Salida QD.xlsx", sheetName = "Distribuciones Quality Data", 
+ #          col.names = TRUE, 
+  #         row.names = FALSE, append = FALSE)
+
+
+
+#Supplier data
+
 colnames(matriz) = c('Material','Supplier','Distribucion','Param1','Param2')
 
-write.xlsx(matriz, "Distribuciones Salida.xlsx", sheetName = "Distribuciones Salida", 
-           col.names = TRUE, 
-           row.names = FALSE, append = FALSE)
+write.xlsx(matriz, "Distribuciones Salida SD.xlsx", sheetName = "Distribuciones Supplier Data", 
+          col.names = TRUE, 
+          row.names = FALSE, append = FALSE)
 
 

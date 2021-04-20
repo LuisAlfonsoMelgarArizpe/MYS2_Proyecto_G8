@@ -71,6 +71,6 @@ cat(sprintf("Para la combinacion %s y %s la dist. es : %s (%s) \n",filtro_produc
 
 colnames(excel) = c("Estacion","Producto","Distribucion","Parametro_1","Parametro_2")
 
-write.xlsx(excel, "Distribuciones Processing Data.xlsx", sheetName = "Distribuciones Processing Data", 
+write.xlsx(excel, "Distribuciones Salida PD.xlsx", sheetName = "Distribuciones Processing Data", 
            col.names = TRUE, 
            row.names = FALSE, append = FALSE)
