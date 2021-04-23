@@ -1,0 +1,4 @@
+Time(Hours),EntityID,ObjectName,ProcessID,StepName,Action
+3.00038194444444,Material2.1191,Model,213.AnalizarPedido,[Assign] Assign3,Data type mismatch in state variable assignment.
+3.00038194444444,Material2.1191,Model,213.AnalizarPedido,[Assign] Assign3,State variable 'Material2.1191.Madera' is of type 'String' but attempting to assign value '0' that is of type 'Number'.
+
